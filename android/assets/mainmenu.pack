@@ -1,0 +1,160 @@
+
+mainmenu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bg
+  rotate: false
+  xy: 1, 1181
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+creditsbg
+  rotate: false
+  xy: 1, 459
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+creditsbutton
+  rotate: false
+  xy: 1283, 1674
+  size: 597, 227
+  orig: 597, 227
+  offset: 0, 0
+  index: -1
+exit
+  rotate: false
+  xy: 1, 230
+  size: 597, 227
+  orig: 597, 227
+  offset: 0, 0
+  index: -1
+highscores
+  rotate: false
+  xy: 1283, 1445
+  size: 597, 227
+  orig: 597, 227
+  offset: 0, 0
+  index: -1
+Pink
+  rotate: false
+  xy: 1, 1
+  size: 597, 227
+  orig: 597, 227
+  offset: 0, 0
+  index: -1
+startbutton
+  rotate: false
+  xy: 600, 230
+  size: 597, 227
+  orig: 597, 227
+  offset: 0, 0
+  index: -1
+backbutton
+  rotate: false
+  xy: 1283, 1235
+  size: 208, 208
+  orig: 208, 208
+  offset: 0, 0
+  index: -1
+demute
+  rotate: false
+  xy: 600, 20
+  size: 208, 208
+  orig: 208, 208
+  offset: 0, 0
+  index: -1
+mute
+  rotate: false
+  xy: 1283, 1025
+  size: 208, 208
+  orig: 208, 208
+  offset: 0, 0
+  index: -1
+level1
+  rotate: false
+  xy: 1493, 1236
+  size: 207, 207
+  orig: 207, 207
+  offset: 0, 0
+  index: -1
+level2
+  rotate: false
+  xy: 810, 21
+  size: 207, 207
+  orig: 207, 207
+  offset: 0, 0
+  index: -1
+level3
+  rotate: false
+  xy: 1283, 816
+  size: 207, 207
+  orig: 207, 207
+  offset: 0, 0
+  index: -1
+lock
+  rotate: false
+  xy: 1493, 1027
+  size: 207, 207
+  orig: 207, 207
+  offset: 0, 0
+  index: -1
+
+mainmenu2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+desertbg
+  rotate: false
+  xy: 1, 723
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+forestbg
+  rotate: false
+  xy: 1, 1
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+
+mainmenu3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+highscoresbg
+  rotate: false
+  xy: 1, 723
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+map
+  rotate: false
+  xy: 1, 1
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+
+mainmenu4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+menubg
+  rotate: false
+  xy: 1, 723
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+winterbg
+  rotate: false
+  xy: 1, 1
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1

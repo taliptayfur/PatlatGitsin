@@ -1,0 +1,26 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont:{
+carterone-font: { file: fonts/carteronef.fnt }
+},
+com.badlogic.gdx.graphics.Color: {
+	green: { a: 1, b: 0, g: 1, r: 0 },
+	white: { a: 1, b: 1, g: 1, r: 1 },
+	red: { a: 1, b: 0, g: 0, r: 1 },
+	black: { a: 1, b: 0, g: 0, r: 0 }
+},
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    	startbutton: { down: startbutton, up: startbutton},
+	demute: { down: demute, up: demute},
+	mute: { down: mute, up: mute},
+	highscores: { down: highscores, up: highscores},
+	creditsbutton: { down: creditsbutton, up: creditsbutton},
+	backbutton: { down:backbutton, up:backbutton},
+	level1:{ down:level1, up:level1},
+	level2:{ down:level2, up:level2},
+	level3:{ down:level3, up:level3},
+	lock:{ down:lock, up:lock},
+	Pink:{ down:Pink, up:Pink},
+	exit: { down: exit, up: exit},
+}
+
+}

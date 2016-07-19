@@ -1,0 +1,3026 @@
+public class Balloon {
+
+    SpriteBatch batch;
+    Texture img;
+
+    protected float x;
+    protected float y;
+
+    int width = 128;
+    int height = 128;
+
+    int point;
+    int screenWidth, screenHeight;
+    Rectangle rectangle;
+
+    boolean flagX = true;
+    boolean flagY = true;
+
+    public Balloon(float x, float y, int screenWidth, int screenHeight, String textureName, int point) {
+        batch = new SpriteBatch();
+        img = new Texture(Gdx.files.internal(textureName));
+
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.x = x;
+        this.y = y;
+
+        this.point = point;
+
+        rectangle = new Rectangle(x, y, width, height);
+    }
+
+
+    public Balloon(float x, float y, int screenWidth, int screenHeight) {
+
+        batch = new SpriteBatch();
+
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.x = x;
+        this.y = y;
+        rectangle = new Rectangle(x, y, width, height);
+    }
+
+    public void kenaraDegdimi() {
+
+        if (x >= screenWidth - width) {
+            // turns to false
+            flagX = false;
+        } else if (x < 0) {
+            // turns to true
+            flagX = true;
+        }
+
+        if (y >= screenHeight - height) {
+            // turns to false
+            flagY = false;
+        } else if (y < 0) {
+            // turns to true
+            flagY = true;
+        }
+    }
+
+    public void render() {
+        if (img != null) {
+            batch.begin();
+            batch.draw(img, x, y, width, height);
+            batch.end();
+        }
+    }
+
+
+    public void hareketEt(float moveDelta) {
+        if (flagX) {
+            x = x + 700 * moveDelta;
+            rectangle.setX(x);
+        } else {
+            x = x - 700 * moveDelta;
+            rectangle.setY(y);
+        }
+    }
+
+    public void playSound() {
+        if (PatlatGitsin.isPlaying)
+            PatlatGitsin.blasteffect.play();
+    }
+
+    public void goBack() {
+        flagX = !flagX;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public boolean isFlagX() {
+        return flagX;
+    }
+
+    public void setFlagX(boolean flagX) {
+        this.flagX = flagX;
+    }
+
+    public boolean isFlagY() {
+        return flagY;
+    }
+
+    public void setFlagY(boolean flagY) {
+        this.flagY = flagY;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+}
+
+public class BlackBalloon extends com.mygdx.deneme.balloon.Balloon {
+
+    public int countBlack;
+
+    Random rand = new Random();
+
+    private double angle = 45.0;
+
+    public BlackBalloon(float x, float y, int screenWidth, int screenHeight, String textureName, Texture texture, int point) {
+
+        super(x, y, screenWidth, screenHeight);
+        this.img = texture;
+
+        countBlack = rand.nextInt(20) + 1;
+        this.point = point;
+
+    }
+
+    @Override
+    public void hareketEt(float moveDelta) {
+
+        if (flagX) {
+            this.x = this.x + (float) Math.sin(angle) * 700 * moveDelta;
+        } else {
+            this.x = this.x - (float) Math.sin(angle) * 700 * moveDelta;
+        }
+
+        if (flagY) {
+            this.y = this.y + (float) Math.cos(angle) * 700 * moveDelta;
+        } else {
+            this.y = this.y - (float) Math.cos(angle) * 700 * moveDelta;
+        }
+
+        rectangle.setX(x);
+        rectangle.setY(y);
+
+    }
+
+    @Override
+    public void goBack() {
+        flagX = !flagX;
+        flagY = !flagY;
+    }
+
+    @Override
+    public void playSound() {
+        if (PatlatGitsin.isPlaying == true)
+            PatlatGitsin.blackblasteffect.play();
+    }
+
+    public int getCountBlack() {
+        return countBlack;
+    }
+
+    public void setCountBlack(int countBlack) {
+        this.countBlack = countBlack;
+    }
+}
+
+
+public class GreenBalloon extends com.mygdx.deneme.balloon.Balloon {
+
+    public int countGreen;
+    Random rand = new Random();
+
+    public GreenBalloon(float x, float y, int screenWidth, int screenHeight, String textureName, Texture texture, int point) {
+        super(x, y, screenWidth, screenHeight);
+
+        this.img = texture;
+        this.point = point;
+
+        countGreen = rand.nextInt(20) + 1;
+    }
+
+    @Override
+    public void hareketEt(float moveDelta) {
+
+        if (flagY) {
+            this.y = this.y + 700 * moveDelta;
+        } else {
+            this.y = this.y - 700 * moveDelta;
+        }
+
+        rectangle.setX(x);
+        rectangle.setY(y);
+
+    }
+
+    @Override
+    public void goBack() {
+        flagY = !flagY;
+    }
+
+    public int getCountGreen() {
+        return countGreen;
+    }
+
+    public void setCountGreen(int countGreen) {
+        this.countGreen = countGreen;
+    }
+}
+
+
+public class Ice extends com.mygdx.deneme.balloon.Balloon {
+
+    Random rand = new Random();
+    public boolean showIce;
+
+    public Timer iceTimer;
+
+
+    public Ice(float x, float y, int screenWidth, int screenHeight, String textureName, Texture texture, int point) {
+        super(x, y, screenWidth, screenHeight, textureName, point);
+
+        showIce = false;
+
+        iceTimer = new Timer();
+        Random random = new Random();
+
+
+        iceTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                showIce = true;
+            }
+        }, 10000, 40000);
+
+    }
+    public void render(){
+
+        if(img != null && showIce){
+            batch.begin();
+            batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            batch.end();
+        }
+
+    }
+
+    @Override
+    public void hareketEt(float moveDelta) {
+
+        // Hareket etmeyeceği için hareketEt fonksiyonunu boş bıraktık
+
+    }
+
+    @Override
+    public void playSound() {
+        if (PatlatGitsin.isPlaying == true)
+            PatlatGitsin.iceeffect.play();
+    }
+
+
+}
+
+
+public class RedBalloon extends com.mygdx.deneme.balloon.Balloon {
+
+    int redCount;
+    Random random;
+
+    public RedBalloon(float x, float y, int screenWidth, int screenHeight, String textureName, int point) {
+
+        super(x, y, screenWidth, screenHeight, textureName, point);
+        random = new Random();
+
+        redCount = random.nextInt(10000);
+
+    }
+
+    @Override
+    public void hareketEt(float moveDelta) {
+
+        if (redCount > 0) {
+            redCount -= 2000 * moveDelta;
+        } else {
+            flagX = !flagX;
+            flagY = !flagY;
+
+            redCount = random.nextInt(10000);
+        }
+
+        if (flagX) {
+            this.x = this.x + 1000 * moveDelta;
+        } else {
+            this.x = this.x - 1000 * moveDelta;
+        }
+
+        if (flagY) {
+            this.y = this.y + 1000 * moveDelta;
+        } else {
+            this.y = this.y - 1000 * moveDelta;
+        }
+
+        rectangle.setX(x);
+        rectangle.setY(y);
+    }
+
+    @Override
+    public void goBack() {
+        flagX = !flagX;
+    }
+}
+
+
+public class YellowBalloon extends com.mygdx.deneme.balloon.Balloon {
+
+    public boolean showYellow;
+    public Timer yellowTimer;
+    public Timer yellowTimer2;
+    public boolean teleport = true;
+    Random rand = new Random();
+
+    public YellowBalloon(float x, float y, int screenWidth, int screenHeight, String textureName, int point) {
+        super(x, y, screenWidth, screenHeight, textureName, point);
+
+        showYellow = true;
+
+        createYellowTimer();
+
+    }
+
+    public void createYellowTimer() {
+        yellowTimer = new Timer();
+        yellowTimer2 = new Timer();
+        Random random = new Random();
+
+        yellowTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                showYellow = true;
+                yellowTimer2.cancel();
+                yellowTimer2 = new Timer();
+
+                yellowTimer2.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        showYellow = false;
+                        yellowTimer2.cancel();
+                        teleport();
+                    }
+                }, 1000, 1000);
+
+            }
+
+        }, 1000, 1000 + random.nextInt(3000));
+    }
+
+
+    @Override
+    public void render() {
+
+        if (img != null && showYellow) {
+            batch.begin();
+            batch.draw(img, x, y, width, height);
+            batch.end();
+        }
+    }
+
+    @Override
+    public void hareketEt(float moveDelta) {
+
+        if (moveDelta < 100) {
+            teleport = false;
+        } else {
+            teleport = true;
+        }
+
+    }
+
+    public void teleport() {
+
+        if (!PatlatGitsin.iceShowing) {
+            x = rand.nextInt(screenWidth - width);
+            y = rand.nextInt(screenHeight - height);
+
+            rectangle.setX(x);
+            rectangle.setY(y);
+        }
+
+    }
+
+}
+
+public class LevelScreen implements Screen, InputProcessor {
+
+    private Stage stage;
+    private Image levelScreenBackground;
+    private Button backButton;
+    private Button level1Button;
+    private Button level2Button;
+    private Button level3Button;
+    private Button lockButton;
+    private Button newGameButton;
+
+
+    private LevelScreen1 levelScreen1;
+    private LevelScreen2 levelScreen2;
+    private LevelScreen3 levelScreen3;
+    private MenuScreen menuScreen;
+
+    public LevelScreen() {
+    }
+
+    @Override
+    public void show() {
+        stage = new Stage();
+
+        PatlatGitsin.poppedBalloons = new int[]{0, 0, 0, 0};
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setCatchBackKey(true);
+
+        float scaleX = Gdx.graphics.getWidth() / 1280.0f;
+        float scaleY = Gdx.graphics.getHeight() / 720.0f;
+
+
+        menuScreen = new MenuScreen();
+        levelScreen1 = new LevelScreen1();
+        levelScreen2 = new LevelScreen2();
+        levelScreen3 = new LevelScreen3();
+
+        levelScreenBackground = new Image(PatlatGitsin.skin, "map");
+
+        final Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+
+        int level1Score = prefs.getInteger("Level1", 0);
+        int level2Score = prefs.getInteger("Level2", 0);
+        int level3Score = prefs.getInteger("Level3", 0);
+
+        backButton = new Button(PatlatGitsin.skin, "backbutton");
+        lockButton = new Button(PatlatGitsin.skin, "lock");
+        newGameButton = new Button(PatlatGitsin.skin, "Pink");
+
+        level1Button = new Button(PatlatGitsin.skin, "level1");
+
+        if (level1Score < 100)
+            level2Button = new Button(PatlatGitsin.skin, "lock");
+        else
+            level2Button = new Button(PatlatGitsin.skin, "level2");
+
+        if (level2Score < 100)
+            level3Button = new Button(PatlatGitsin.skin, "lock");
+        else
+            level3Button = new Button(PatlatGitsin.skin, "level3");
+
+
+        levelScreenBackground.setPosition(0.0f, 0.0f);
+        levelScreenBackground.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        newGameButton.setPosition(20 * scaleX, 20 * scaleY);
+        newGameButton.setBounds(newGameButton.getX(), newGameButton.getY(), newGameButton.getWidth() / 2.0f, newGameButton.getHeight() / 2.0f);
+
+        lockButton.setPosition(300 * scaleX, (Gdx.graphics.getHeight() - 382) * scaleY);
+        lockButton.setBounds(lockButton.getX(), lockButton.getY(), 100, 100);
+
+        backButton.setPosition((Gdx.graphics.getWidth() - 230) * scaleX, 20 * scaleY);
+        backButton.setBounds(backButton.getX(), backButton.getY(), 150, 150);
+
+        level1Button.setPosition(435 * scaleX, 600 * scaleY);
+        level1Button.setBounds(level1Button.getX(), level1Button.getY(), 100, 100);
+
+        level2Button.setPosition(705 * scaleX, 400 * scaleY);
+        level2Button.setBounds(level2Button.getX(), level2Button.getY(), 100, 100);
+
+        level3Button.setPosition(810 * scaleX, (Gdx.graphics.getHeight() - 535) * scaleY);
+        level3Button.setBounds(level3Button.getX(), level3Button.getY(), 100, 100);
+
+        level1Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PatlatGitsin.menuost.stop();
+                if (PatlatGitsin.isPlaying == true)
+                    PatlatGitsin.desertost.play();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(levelScreen1);
+            }
+        });
+
+        if (level1Score >= 100) {
+            level2Button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    PatlatGitsin.menuost.stop();
+                    if (PatlatGitsin.isPlaying == true)
+                        PatlatGitsin.forestost.play();
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(levelScreen2);
+                }
+            });
+        }
+        if (level2Score >= 100) {
+            level3Button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    PatlatGitsin.menuost.stop();
+                    if (PatlatGitsin.isPlaying == true)
+                        PatlatGitsin.winterost.play();
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(levelScreen3);
+                }
+            });
+        }
+
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(menuScreen);
+            }
+        });
+
+
+        newGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                prefs.putInteger("Level1", 0);
+                prefs.putInteger("Level2", 0);
+                prefs.putInteger("Level3", 0);
+                prefs.flush();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelScreen());
+            }
+        });
+
+
+        stage.addActor(levelScreenBackground);
+        stage.addActor(level1Button);
+        stage.addActor(level2Button);
+        stage.addActor(level3Button);
+        stage.addActor(lockButton);
+        stage.addActor(newGameButton);
+        stage.addActor(backButton);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+public class LevelScreen1 implements Screen, InputProcessor {
+
+    private com.mygdx.deneme.balloon.GreenBalloon greenBalloon;
+    private com.mygdx.deneme.balloon.RedBalloon redBalloon;
+    private com.mygdx.deneme.balloon.YellowBalloon yellowBalloon;
+    private com.mygdx.deneme.balloon.BlackBalloon blackBalloon;
+
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> balloonList;
+
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allBlackBalloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allGreenBalloonList;
+
+    Texture backgroundTexture;
+    Timer timer;
+    int screenWidth, screenHeight;
+
+    int width = 128;
+    int height = 128;
+
+    float moveDelta = 0;
+
+    float totalTime = 30;
+    boolean sariGoster = false;
+    boolean savePoint = false;
+
+    SpriteBatch batch;
+
+    Texture blackTexture;
+    Texture greenTexture;
+    Texture backTexture;
+    Texture nextTexture;
+
+    @Override
+    public void show() {
+
+        PatlatGitsin.poppedBalloons = new int[]{0, 0, 0, 0};
+
+        PatlatGitsin.level1Score = 0;
+
+        PatlatGitsin.gamePlaying = true;
+
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
+
+        batch = new SpriteBatch();
+
+        backgroundTexture = new Texture("desertbg.png");
+        timer = new Timer();
+
+        blackTexture = new Texture(Gdx.files.internal("black_balloon.png"));
+        greenTexture = new Texture(Gdx.files.internal("green_balloon.png"));
+
+        backTexture = new Texture(Gdx.files.internal("backbutton.png"));
+        nextTexture = new Texture(Gdx.files.internal("nextbutton.png"));
+
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+
+        Random r = new Random(); //random sınıfı
+
+        int randX, randY;
+
+        balloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+
+        allBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+        allGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+        int blackCount = 1;
+        int greenCount = 4;
+        int redCount = 8;
+        int yellowCount = 8;
+
+        int sidedBalloonsCount = 10;
+
+        // Kenarda tutulan balonlar
+        for (int i = 0; i < sidedBalloonsCount; i++) {
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) 0, (float) 0, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            allGreenBalloonList.add(greenBalloon);
+
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) 0, (float) 0, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            allBlackBalloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < blackCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) randX, (float) randY, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            balloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < greenCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) randX, (float) randY, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            balloonList.add(greenBalloon);
+        }
+
+        for (int i = 0; i < redCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            redBalloon = new com.mygdx.deneme.balloon.RedBalloon((float) randX, (float) randY, screenWidth, screenHeight, "red_balloon.png", 10);
+            balloonList.add(redBalloon);
+        }
+
+        for (int i = 0; i < yellowCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            yellowBalloon = new com.mygdx.deneme.balloon.YellowBalloon((float) randX, (float) randY, screenWidth, screenHeight, "yellow_balloon.png", 20);
+            // yellowBalloonList.add(yellowBalloon);
+            balloonList.add(yellowBalloon);
+        }
+
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Random rand = new Random();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> greenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> blackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                // green to black
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen -= 1;
+
+                        if (((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen == 0) {
+
+                            ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen = rand.nextInt(20) + 1;
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.BlackBalloon blackBalloon = (com.mygdx.deneme.balloon.BlackBalloon) allBlackBalloonList.get(0);
+                            allBlackBalloonList.remove(0);
+
+                            blackBalloon.setX(balloonList.get(i).getX());
+                            blackBalloon.setY(balloonList.get(i).getY());
+
+                            allGreenBalloonList.add(balloonList.get(i));
+
+                            greenBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempBlackBalloonList.add(blackBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempBlackBalloonList.size(); i++) {
+                    balloonList.add(tempBlackBalloonList.get(i));
+                }
+
+                for (int i = 0; i < greenBalloonList.size(); i++) {
+                    balloonList.remove(greenBalloonList.get(i));
+                }
+
+                // #################################################
+
+                // black to green
+
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack -= 1;
+
+                        if (((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack == 0) {
+
+                            ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack = rand.nextInt(7) + 1;
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.GreenBalloon greenBalloon = (com.mygdx.deneme.balloon.GreenBalloon) allGreenBalloonList.get(0);
+                            allGreenBalloonList.remove(0);
+
+                            greenBalloon.setX(balloonList.get(i).getX());
+                            greenBalloon.setY(balloonList.get(i).getY());
+
+                            allBlackBalloonList.add(balloonList.get(i));
+
+                            blackBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempGreenBalloonList.add(greenBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempGreenBalloonList.size(); i++) {
+                    balloonList.add(tempGreenBalloonList.get(i));
+                }
+
+                for (int i = 0; i < blackBalloonList.size(); i++) {
+                    balloonList.remove(blackBalloonList.get(i));
+                }
+
+            }
+        }, 1000, 1000);
+
+    }
+
+    private void kenaraDegdimi() {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).kenaraDegdimi();
+        }
+
+    }
+
+    private void moveBalloons(float moveDelta) {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).hareketEt(moveDelta);
+        }
+    }
+
+    private void birbirineCarptimi() {
+
+        ArrayList<com.mygdx.deneme.balloon.Balloon> tmpBalloonList = (ArrayList<com.mygdx.deneme.balloon.Balloon>) balloonList.clone();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            for (int j = 0; j < balloonList.size(); j++) {
+
+                if (i != j) {
+
+                    boolean contains = balloonList.get(i).getRectangle().overlaps(balloonList.get(j).getRectangle());
+
+                    if (contains) {
+                        balloonList.get(i).goBack();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void render(float delta) {
+        moveDelta = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f); //1 saniyede 1
+
+        Gdx.gl.glClearColor(0, 0, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        if (backgroundTexture != null) {
+            batch.begin();
+            batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            batch.end();
+        }
+
+        batch.begin();
+        PatlatGitsin.font.draw(batch, "Kalan Sure: " + (int) totalTime, 10, 40);
+        PatlatGitsin.font.draw(batch, "Puan : " + PatlatGitsin.level1Score, (Gdx.graphics.getWidth() - 230), 40);
+
+        String poppedBalloonsMessage = "B: " + PatlatGitsin.poppedBalloons[0] + "  G: " + PatlatGitsin.poppedBalloons[1]
+                + "  R: " + PatlatGitsin.poppedBalloons[2] + "  Y: " + PatlatGitsin.poppedBalloons[3];
+
+        PatlatGitsin.font.draw(batch, poppedBalloonsMessage, 450, 40);
+
+        batch.end();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            if (balloonList.get(i) != null)
+                balloonList.get(i).render();
+        }
+
+        if (PatlatGitsin.gamePlaying) {
+
+            if (totalTime >= 0) {
+                totalTime -= moveDelta; //if counting down
+            } else {
+                PatlatGitsin.gamePlaying = false;
+                timer.cancel();
+
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) != null) {
+                        if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                            ((com.mygdx.deneme.balloon.YellowBalloon) balloonList.get(i)).yellowTimer2.cancel();
+                            ((com.mygdx.deneme.balloon.YellowBalloon) balloonList.get(i)).yellowTimer.cancel();
+                        }
+                    }
+                }
+
+            }
+
+            moveBalloons(moveDelta);
+            kenaraDegdimi();
+            // birbirineCarptimi();
+
+            if (balloonList.size() <= 0) {
+                PatlatGitsin.gamePlaying = false;
+                timer.cancel();
+            }
+
+        } else {
+            // yeterli sayıda balon patlatılmış ise
+            if (PatlatGitsin.poppedBalloons[0] >= 1 && PatlatGitsin.poppedBalloons[1] >= 1 &&
+                    PatlatGitsin.poppedBalloons[2] >= 1 && PatlatGitsin.poppedBalloons[3] >= 1) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "OYUN SONU : " + PatlatGitsin.level1Score, (Gdx.graphics.getWidth() / 2) - 200, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = true;
+            } else {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "Yeterli Sayida Balon Patlatilamadi!! " + PatlatGitsin.level1Score, 100, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = false;
+            }
+
+            if (PatlatGitsin.level1Score < 100) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "100 Puan Toplanamadi!! Puan : " + PatlatGitsin.level1Score, 100, Gdx.graphics.getHeight() / 2 - 50);
+                batch.end();
+                savePoint = false;
+            }
+
+            batch.begin();
+            batch.draw(backTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight()-100), 100, 100);
+            batch.draw(nextTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight()-230), 100, 100);
+            batch.end();
+        }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            if (PatlatGitsin.isPlaying )
+                PatlatGitsin.menuost.play();
+
+            PatlatGitsin.desertost.stop();
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (PatlatGitsin.gamePlaying) {
+            // Telefon y si ile libgdx y si farklı
+            // Telefon y si üst taraftan aşağı doğru artıyor
+            // Kütüphane y si aşağıdan yukarı doğru artıyor
+
+            screenY = screenHeight - screenY;
+
+            boolean x1, x2, y1, y2;
+
+            for (int i = balloonList.size() - 1; i >= 0; i--) {
+
+                com.mygdx.deneme.balloon.Balloon tmpBalloon = balloonList.get(i);
+
+                if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                    if (!((com.mygdx.deneme.balloon.YellowBalloon) tmpBalloon).showYellow) {
+                        continue;
+                    }
+                }
+
+                if (tmpBalloon != null) {
+                    x1 = screenX > tmpBalloon.getX();
+                    x2 = screenX < (tmpBalloon.getX() + tmpBalloon.getWidth());
+
+                    y1 = screenY > tmpBalloon.getY();
+                    y2 = screenY < (tmpBalloon.getY() + tmpBalloon.getHeight());
+                } else {
+                    continue;
+                }
+
+                if (x1 && x2 && y1 && y2) {
+                    // y = y + 100;
+                    tmpBalloon.playSound();
+                    //balloonList.remove(i);
+
+                    PatlatGitsin.level1Score += tmpBalloon.getPoint();
+
+                    if (tmpBalloon instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        PatlatGitsin.poppedBalloons[0] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        PatlatGitsin.poppedBalloons[1] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.RedBalloon) {
+                        PatlatGitsin.poppedBalloons[2] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                        PatlatGitsin.poppedBalloons[3] += 1;
+                    }
+
+                    // balloonList.remove(balloonList.get(i));
+                    try {
+                        balloonList.set(i, null);
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.toString());
+                        continue;
+                    }
+
+                    System.out.println("Balon uzunluğu: " + balloonList.size());
+
+                    break;
+                }
+            }
+
+            balloonList.removeAll(Collections.singleton(null));
+
+        } else {
+
+            boolean x1 = screenX > (Gdx.graphics.getWidth()-100);
+            boolean x2 = screenX < ((Gdx.graphics.getWidth()-100) + 100);
+
+            boolean y1 = screenY > 0;
+            boolean y2 = screenY < 0 + 100;
+
+            if (x1 && x2 && y1 && y2) {
+
+                if(savePoint && PatlatGitsin.level1Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level1", PatlatGitsin.level1Score);
+                    prefs.flush();
+                }
+
+                if (PatlatGitsin.isPlaying)
+                    PatlatGitsin.menuost.play();
+
+                PatlatGitsin.desertost.stop();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+            }
+
+            boolean x11 = screenX > (Gdx.graphics.getWidth()-100);
+            boolean x22 = screenX < ((Gdx.graphics.getWidth()-100) + 100);
+
+            boolean y11 = screenY > 130;
+            boolean y22 = screenY < 130 + 100;
+
+            if (x11 && x22 && y11 && y22) {
+
+                if(savePoint && PatlatGitsin.level1Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level1", PatlatGitsin.level1Score);
+                    prefs.flush();
+
+
+                    if (PatlatGitsin.isPlaying)
+                        PatlatGitsin.forestost.play();
+
+                    PatlatGitsin.desertost.stop();
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelScreen2());
+
+                }
+
+
+            }
+
+
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+public class LevelScreen2 implements Screen, InputProcessor {
+    Texture backgroundTexture;
+    Timer timer;
+    SpriteBatch batch;
+    int screenWidth, screenHeight;
+    int width = 100;
+    int height = 100;
+    float moveDelta = 0;
+    float totalTime = 30;
+    boolean sariGoster = false;
+    boolean savePoint = false;
+    Texture blackTexture;
+    Texture greenTexture;
+    Texture backTexture;
+    Texture nextTexture;
+    int iceClickCount;
+    private com.mygdx.deneme.balloon.GreenBalloon greenBalloon;
+    private com.mygdx.deneme.balloon.RedBalloon redBalloon;
+    private com.mygdx.deneme.balloon.YellowBalloon yellowBalloon;
+    private com.mygdx.deneme.balloon.BlackBalloon blackBalloon;
+    private com.mygdx.deneme.balloon.Ice iceEffect;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> balloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allBlackBalloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allGreenBalloonList;
+
+    @Override
+    public void show() {
+
+        PatlatGitsin.iceShowing = false;
+
+        PatlatGitsin.poppedBalloons = new int[]{0, 0, 0, 0};
+
+        PatlatGitsin.level2Score = 0;
+
+        PatlatGitsin.gamePlaying = true;
+
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
+
+        batch = new SpriteBatch();
+
+        backgroundTexture = new Texture("forestbg.png");
+        timer = new Timer();
+
+        blackTexture = new Texture(Gdx.files.internal("black_balloon.png"));
+        greenTexture = new Texture(Gdx.files.internal("green_balloon.png"));
+        backTexture = new Texture(Gdx.files.internal("backbutton.png"));
+        nextTexture = new Texture(Gdx.files.internal("nextbutton.png"));
+
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+
+        Random r = new Random(); //random sınıfı
+
+        int randX, randY;
+
+        balloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+        allBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+        allGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+        int blackCount = 2;
+        int greenCount = 3;
+        int redCount = 5;
+        int yellowCount = 5;
+
+        int iceCount = 1;
+
+
+        int sidedBalloonsCount = 10;
+
+        // Kenarda tutulan balonlar
+        for (int i = 0; i < sidedBalloonsCount; i++) {
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) 0, (float) 0, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            greenBalloon.setHeight(100);
+            greenBalloon.setWidth(100);
+            allGreenBalloonList.add(greenBalloon);
+
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) 0, (float) 0, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            blackBalloon.setHeight(100);
+            blackBalloon.setWidth(100);
+            allBlackBalloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < blackCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) randX, (float) randY, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            blackBalloon.setHeight(100);
+            blackBalloon.setWidth(100);
+            balloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < greenCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) randX, (float) randY, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            greenBalloon.setHeight(100);
+            greenBalloon.setWidth(100);
+            balloonList.add(greenBalloon);
+        }
+
+        for (int i = 0; i < redCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            redBalloon = new com.mygdx.deneme.balloon.RedBalloon((float) randX, (float) randY, screenWidth, screenHeight, "red_balloon.png", 10);
+            redBalloon.setHeight(100);
+            redBalloon.setWidth(100);
+            balloonList.add(redBalloon);
+        }
+
+        for (int i = 0; i < yellowCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            yellowBalloon = new com.mygdx.deneme.balloon.YellowBalloon((float) randX, (float) randY, screenWidth, screenHeight, "yellow_balloon.png", 20);
+            yellowBalloon.setHeight(100);
+            yellowBalloon.setWidth(100);
+            balloonList.add(yellowBalloon);
+            // yellowBalloonList.add(yellowBalloon);
+        }
+
+        /*
+        for (int i = 0; i < iceCount; i++) {
+            ice = new Ice((float) 0, (float) 0, screenWidth, screenHeight, "icetexture.png", greenTexture, 0);
+            balloonList.add(ice);
+        }
+        */
+
+        iceEffect = new com.mygdx.deneme.balloon.Ice((float) 0, (float) 0, screenWidth, screenHeight, "icetexture.png", greenTexture, 0);
+
+        timerState();
+
+    }
+
+    private void timerState() {
+
+        timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+
+                Random rand = new Random();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> greenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> blackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                // green to black
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen -= 1;
+
+                        if (((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen == 0) {
+
+                            ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen = rand.nextInt(20) + 1;
+
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.BlackBalloon blackBalloon = (com.mygdx.deneme.balloon.BlackBalloon) allBlackBalloonList.get(0);
+                            allBlackBalloonList.remove(0);
+
+                            blackBalloon.setX(balloonList.get(i).getX());
+                            blackBalloon.setY(balloonList.get(i).getY());
+
+                            allGreenBalloonList.add(balloonList.get(i));
+
+                            greenBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempBlackBalloonList.add(blackBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempBlackBalloonList.size(); i++) {
+                    balloonList.add(tempBlackBalloonList.get(i));
+                }
+
+                for (int i = 0; i < greenBalloonList.size(); i++) {
+                    balloonList.remove(greenBalloonList.get(i));
+                }
+
+                // #################################################
+
+                // black to green
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack -= 1;
+
+                        if (((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack == 0) {
+
+                            ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack = rand.nextInt(7) + 1;
+
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.GreenBalloon greenBalloon = (com.mygdx.deneme.balloon.GreenBalloon) allGreenBalloonList.get(0);
+                            allGreenBalloonList.remove(0);
+
+                            greenBalloon.setX(balloonList.get(i).getX());
+                            greenBalloon.setY(balloonList.get(i).getY());
+
+                            allBlackBalloonList.add(balloonList.get(i));
+
+                            blackBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempGreenBalloonList.add(greenBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempGreenBalloonList.size(); i++) {
+                    balloonList.add(tempGreenBalloonList.get(i));
+                }
+
+                for (int i = 0; i < blackBalloonList.size(); i++) {
+                    balloonList.remove(blackBalloonList.get(i));
+                }
+
+            }
+
+
+        }, 1000, 1000);
+    }
+
+    private void kenaraDegdimi() {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).kenaraDegdimi();
+        }
+    }
+
+    private void moveBalloons(float moveDelta) {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).hareketEt(moveDelta);
+        }
+    }
+
+
+    @Override
+    public void render(float delta) {
+        moveDelta = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f);
+
+        Gdx.gl.glClearColor(0, 0, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        if (backgroundTexture != null) {
+            batch.begin();
+            batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            batch.end();
+        }
+
+
+        batch.begin();
+        PatlatGitsin.font.draw(batch, "Kalan Sure: " + (int) totalTime, 10, 40);
+        PatlatGitsin.font.draw(batch, "Puan : " + PatlatGitsin.level2Score, (Gdx.graphics.getWidth() - 230), 40);
+        String poppedBalloonsMessage = "B: " + PatlatGitsin.poppedBalloons[0] + "  G: " + PatlatGitsin.poppedBalloons[1]
+                + "  R: " + PatlatGitsin.poppedBalloons[2] + "  Y: " + PatlatGitsin.poppedBalloons[3];
+        PatlatGitsin.font.draw(batch, poppedBalloonsMessage, 450, 40);
+        batch.end();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            if (balloonList.get(i) != null)
+                balloonList.get(i).render();
+
+            /*
+            if(iceEffect.showIce && balloonList.get(i) instanceof YellowBalloon){
+                ((YellowBalloon)balloonList.get(i)).yellowTimer.cancel();
+                ((YellowBalloon)balloonList.get(i)).yellowTimer2.cancel();
+            }
+            */
+
+        }
+
+        // Buz efekti kontrolü
+        if (iceEffect.showIce) {
+            PatlatGitsin.iceShowing = true;
+            iceEffect.render();
+            if (timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+
+        }
+
+        if (PatlatGitsin.gamePlaying) {
+
+            if (Math.floor(totalTime) > 0) {
+                totalTime -= moveDelta; //if counting down
+                /*
+                for ( int i = 0; i< balloonList.size(); i++)
+                    if (balloonList.get(i) != null && PatlatGitsin.iceShowing == true) {
+                        if (balloonList.get(i) instanceof YellowBalloon) {
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer2.cancel();
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer.cancel();
+                        }
+                    }*/
+            } else {
+
+                PatlatGitsin.gamePlaying = false;
+                if(timer != null)
+                    timer.cancel();
+
+                /*
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) != null) {
+                        if (balloonList.get(i) instanceof YellowBalloon) {
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer2.cancel();
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer.cancel();
+
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer2 = null;
+                            ((YellowBalloon) balloonList.get(i)).yellowTimer = null;
+                        }
+                    }
+                }
+                */
+            }
+
+            /*
+            for (int i = 0; i < balloonList.size(); i++) {
+                if (balloonList.get(i) != null) {
+                    if (balloonList.get(i) instanceof Ice) {
+                        PatlatGitsin.iceShowing = true;
+                    }
+                }
+            }*/
+
+
+            if (PatlatGitsin.iceShowing == false) {
+                moveBalloons(moveDelta);
+                kenaraDegdimi();
+            } else {
+                moveBalloons(0);
+            }
+
+            if (balloonList.size() <= 0) {
+                PatlatGitsin.gamePlaying = false;
+                timer.cancel();
+            }
+
+        } else {
+            // yeterli sayıda balon patlatılmış ise
+            if (PatlatGitsin.poppedBalloons[0] >= 1 && PatlatGitsin.poppedBalloons[1] >= 1 &&
+                    PatlatGitsin.poppedBalloons[2] >= 1 && PatlatGitsin.poppedBalloons[3] >= 1) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "OYUN SONU : " + PatlatGitsin.level2Score, (Gdx.graphics.getWidth() / 2) - 200, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = true;
+            } else {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "Yeterli Sayida Balon Patlatilamadi!! " + PatlatGitsin.level2Score, 100, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = false;
+            }
+
+            if (PatlatGitsin.level2Score < 100) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "100 Puan Toplanamadi!! Puan : " + PatlatGitsin.level2Score, 100, Gdx.graphics.getHeight() / 2 - 50);
+                batch.end();
+                savePoint = false;
+            }
+
+            batch.begin();
+            batch.draw(backTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight() - 100), 100, 100);
+            batch.draw(nextTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight()-230), 100, 100);
+            batch.end();
+        }
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            if (PatlatGitsin.isPlaying)
+                PatlatGitsin.menuost.play();
+
+            PatlatGitsin.forestost.stop();
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (PatlatGitsin.gamePlaying) {
+            // Telefon y ile libgdx y si farklı
+            screenY = screenHeight - screenY;
+
+            iceClickCount += 1;
+
+            if (iceClickCount % 10 == 9) {
+                iceEffect.showIce = false;
+                PatlatGitsin.iceShowing = false;
+                timerState();
+            }
+
+            boolean x1, x2, y1, y2;
+
+            for (int i = balloonList.size() - 1; i >= 0; i--) {
+
+                com.mygdx.deneme.balloon.Balloon tmpBalloon = balloonList.get(i);
+
+                if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                    if (!((com.mygdx.deneme.balloon.YellowBalloon) tmpBalloon).showYellow) {
+                        continue;
+                    }
+                }
+
+                if (tmpBalloon != null) {
+                    x1 = screenX > tmpBalloon.getX();
+                    x2 = screenX < (tmpBalloon.getX() + tmpBalloon.getWidth());
+
+                    y1 = screenY > tmpBalloon.getY();
+                    y2 = screenY < (tmpBalloon.getY() + tmpBalloon.getHeight());
+                } else {
+                    continue;
+                }
+
+                if (x1 && x2 && y1 && y2 && PatlatGitsin.iceShowing == false) {
+                    // y = y + 100;
+                    tmpBalloon.playSound();
+                    //balloonList.remove(i);
+
+                    PatlatGitsin.level2Score += tmpBalloon.getPoint();
+
+                    if (tmpBalloon instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        PatlatGitsin.poppedBalloons[0] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        PatlatGitsin.poppedBalloons[1] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.RedBalloon) {
+                        PatlatGitsin.poppedBalloons[2] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                        PatlatGitsin.poppedBalloons[3] += 1;
+                    }
+
+                    // balloonList.remove(balloonList.get(i));
+                    try {
+                        balloonList.set(i, null);
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.toString());
+                        continue;
+                    }
+
+                    System.out.println("Balon uzunluğu: " + balloonList.size());
+
+                    break;
+                }
+            }
+
+            balloonList.removeAll(Collections.singleton(null));
+        } else {
+
+            boolean x1 = screenX > (Gdx.graphics.getWidth() - 100);
+            boolean x2 = screenX < ((Gdx.graphics.getWidth() - 100) + 100);
+
+            boolean y1 = screenY > 0;
+            boolean y2 = screenY < 0 + 100;
+
+            if (x1 && x2 && y1 && y2) {
+
+                if (savePoint && PatlatGitsin.level2Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level2", PatlatGitsin.level2Score);
+                    prefs.flush();
+                }
+
+
+                if (PatlatGitsin.isPlaying)
+                    PatlatGitsin.menuost.play();
+
+                PatlatGitsin.forestost.stop();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+
+            }
+
+            boolean x11 = screenX > (Gdx.graphics.getWidth()-100);
+            boolean x22 = screenX < ((Gdx.graphics.getWidth()-100) + 100);
+
+            boolean y11 = screenY > 130;
+            boolean y22 = screenY < 130 + 100;
+
+            if (x11 && x22 && y11 && y22) {
+
+                if(savePoint && PatlatGitsin.level2Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level2", PatlatGitsin.level2Score);
+                    prefs.flush();
+
+
+                    if (PatlatGitsin.isPlaying)
+                        PatlatGitsin.winterost.play();
+
+                    PatlatGitsin.forestost.stop();
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelScreen3());
+
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+
+public class LevelScreen3 implements Screen, InputProcessor {
+    Texture backgroundTexture;
+    Timer timer;
+    int screenWidth, screenHeight;
+    int width = 70;
+    int height = 70;
+    float moveDelta = 0;
+    float totalTime = 30;
+    boolean sariGoster = false;
+    boolean savePoint = false;
+    SpriteBatch batch;
+    Texture blackTexture;
+    Texture greenTexture;
+    Texture backTexture;
+    Texture nextTexture;
+    Rectangle engel;
+    ShapeRenderer shapeRenderer;
+    private com.mygdx.deneme.balloon.GreenBalloon greenBalloon;
+    private com.mygdx.deneme.balloon.RedBalloon redBalloon;
+    private com.mygdx.deneme.balloon.YellowBalloon yellowBalloon;
+    private com.mygdx.deneme.balloon.BlackBalloon blackBalloon;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> balloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allBlackBalloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allGreenBalloonList;
+
+    @Override
+    public void show() {
+
+        PatlatGitsin.poppedBalloons = new int[]{0, 0, 0, 0};
+
+        PatlatGitsin.level3Score = 0;
+
+        PatlatGitsin.gamePlaying = true;
+
+
+        Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
+
+        batch = new SpriteBatch();
+
+        backgroundTexture = new Texture("winterbg.png");
+        timer = new Timer();
+
+
+        blackTexture = new Texture(Gdx.files.internal("black_balloon.png"));
+        greenTexture = new Texture(Gdx.files.internal("green_balloon.png"));
+
+        backTexture = new Texture(Gdx.files.internal("backbutton.png"));
+        nextTexture = new Texture(Gdx.files.internal("nextbutton.png"));
+
+
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+
+        Random r = new Random(); //random sınıfı
+
+        int randX, randY;
+
+        balloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+        allBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+        allGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+        int blackCount = 3;
+        int greenCount = 5;
+        int redCount = 3;
+        int yellowCount = 5;
+
+        int sidedBalloonsCount = 10;
+
+
+        engel = new Rectangle(screenWidth/2, screenHeight/2, 30, 30);
+        shapeRenderer = new ShapeRenderer();
+
+        // Kenarda tutulan balonlar
+        for (int i = 0; i < sidedBalloonsCount; i++) {
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) 0, (float) 0, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            greenBalloon.setHeight(70);
+            greenBalloon.setWidth(70);
+            allGreenBalloonList.add(greenBalloon);
+
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) 0, (float) 0, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            blackBalloon.setHeight(70);
+            blackBalloon.setWidth(70);
+            allBlackBalloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < blackCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            blackBalloon = new com.mygdx.deneme.balloon.BlackBalloon((float) randX, (float) randY, screenWidth, screenHeight, "black_balloon.png", blackTexture, -10);
+            blackBalloon.setHeight(70);
+            blackBalloon.setWidth(70);
+            balloonList.add(blackBalloon);
+        }
+
+        for (int i = 0; i < greenCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            greenBalloon = new com.mygdx.deneme.balloon.GreenBalloon((float) randX, (float) randY, screenWidth, screenHeight, "green_balloon.png", greenTexture, 5);
+            greenBalloon.setHeight(70);
+            greenBalloon.setWidth(70);
+            balloonList.add(greenBalloon);
+        }
+
+        for (int i = 0; i < redCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            redBalloon = new com.mygdx.deneme.balloon.RedBalloon((float) randX, (float) randY, screenWidth, screenHeight, "red_balloon.png", 10);
+            redBalloon.setHeight(70);
+            redBalloon.setWidth(70);
+            balloonList.add(redBalloon);
+        }
+
+        for (int i = 0; i < yellowCount; i++) {
+            randX = r.nextInt(screenWidth - width);
+            randY = r.nextInt(screenHeight - height);
+            yellowBalloon = new com.mygdx.deneme.balloon.YellowBalloon((float) randX, (float) randY, screenWidth, screenHeight, "yellow_balloon.png", 20);
+            yellowBalloon.setHeight(70);
+            yellowBalloon.setWidth(70);
+            //yellowBalloonList.add(yellowBalloon);
+            balloonList.add(yellowBalloon);
+
+        }
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                Random rand = new Random();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> greenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> blackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempBlackBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+                ArrayList<com.mygdx.deneme.balloon.Balloon> tempGreenBalloonList = new ArrayList<com.mygdx.deneme.balloon.Balloon>();
+
+                // green to black
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen -= 1;
+
+                        if (((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen == 0) {
+
+                            ((com.mygdx.deneme.balloon.GreenBalloon) balloonList.get(i)).countGreen = rand.nextInt(20) + 1;
+
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.BlackBalloon blackBalloon = (com.mygdx.deneme.balloon.BlackBalloon) allBlackBalloonList.get(0);
+                            allBlackBalloonList.remove(0);
+
+                            blackBalloon.setX(balloonList.get(i).getX());
+                            blackBalloon.setY(balloonList.get(i).getY());
+
+                            allGreenBalloonList.add(balloonList.get(i));
+
+                            greenBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempBlackBalloonList.add(blackBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempBlackBalloonList.size(); i++) {
+                    balloonList.add(tempBlackBalloonList.get(i));
+                }
+
+                for (int i = 0; i < greenBalloonList.size(); i++) {
+                    balloonList.remove(greenBalloonList.get(i));
+                }
+
+                // #################################################
+
+                // black to green
+
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack -= 1;
+
+                        if (((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack == 0) {
+
+                            ((com.mygdx.deneme.balloon.BlackBalloon) balloonList.get(i)).countBlack = rand.nextInt(7) + 1;
+
+
+                            // BlackBalloon blackBalloon = new BlackBalloon((float) balloonList.get(i).getX(), (float) balloonList.get(i).getY(), screenWidth, screenHeight, "black_balloon.png",blackTexture);
+                            com.mygdx.deneme.balloon.GreenBalloon greenBalloon = (com.mygdx.deneme.balloon.GreenBalloon) allGreenBalloonList.get(0);
+                            allGreenBalloonList.remove(0);
+
+                            greenBalloon.setX(balloonList.get(i).getX());
+                            greenBalloon.setY(balloonList.get(i).getY());
+
+                            allBlackBalloonList.add(balloonList.get(i));
+
+                            blackBalloonList.add(balloonList.get(i));
+                            //balloonList.add(blackBalloon);
+                            tempGreenBalloonList.add(greenBalloon);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tempGreenBalloonList.size(); i++) {
+                    balloonList.add(tempGreenBalloonList.get(i));
+                }
+
+                for (int i = 0; i < blackBalloonList.size(); i++) {
+                    balloonList.remove(blackBalloonList.get(i));
+                }
+
+            }
+
+        }, 1000, 1000);
+
+
+    }
+
+    private void kenaraDegdimi() {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).kenaraDegdimi();
+        }
+    }
+
+    private void moveBalloons(float moveDelta) {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).hareketEt(moveDelta);
+        }
+    }
+
+    private void birbirineCarptimi() {
+
+        // ArrayList<Balloon> tmpBalloonList = (ArrayList<Balloon>) balloonList.clone();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            if (balloonList.get(i).getRectangle().overlaps(engel)) {
+
+                System.out.println(balloonList.get(i).toString());
+
+                com.mygdx.deneme.balloon.Balloon tmpBalloon = balloonList.get(i);
+
+                // y = y + 100;
+                tmpBalloon.playSound();
+                //balloonList.remove(i);
+
+                // PatlatGitsin.level3Score += -5;
+
+
+                /*
+
+                if (tmpBalloon instanceof BlackBalloon) {
+                    PatlatGitsin.poppedBalloons[0] += 1;
+                } else if (tmpBalloon instanceof GreenBalloon) {
+                    PatlatGitsin.poppedBalloons[1] += 1;
+                } else if (tmpBalloon instanceof RedBalloon) {
+                    PatlatGitsin.poppedBalloons[2] += 1;
+                } else if (tmpBalloon instanceof YellowBalloon) {
+                    PatlatGitsin.poppedBalloons[3] += 1;
+                }
+                */
+
+                // balloonList.remove(balloonList.get(i));
+                try {
+                    balloonList.set(i, null);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println(e.toString());
+                }
+
+
+            }
+        }
+
+        balloonList.removeAll(Collections.singleton(null));
+
+    }
+
+    @Override
+    public void render(float delta) {
+        moveDelta = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f);
+
+        Gdx.gl.glClearColor(0, 0, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        if (backgroundTexture != null) {
+            batch.begin();
+            batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            batch.end();
+        }
+
+        batch.begin();
+        PatlatGitsin.font.draw(batch, "Kalan Sure: " + (int) totalTime, 10, 40);
+        PatlatGitsin.font.draw(batch, "Puan : " + PatlatGitsin.level3Score, (Gdx.graphics.getWidth() - 230), 40);
+
+        String poppedBalloonsMessage = "B: " + PatlatGitsin.poppedBalloons[0] + "  G: " + PatlatGitsin.poppedBalloons[1]
+                + "  R: " + PatlatGitsin.poppedBalloons[2] + "  Y: " + PatlatGitsin.poppedBalloons[3];
+
+        PatlatGitsin.font.draw(batch, poppedBalloonsMessage, 450, 40);
+
+        batch.end();
+
+        batch.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(1, 1, 0, 1);
+        shapeRenderer.rect(engel.x, engel.y, engel.width, engel.height);
+        shapeRenderer.end();
+        batch.end();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            if (balloonList.get(i) != null)
+                balloonList.get(i).render();
+        }
+
+        if (PatlatGitsin.gamePlaying) {
+
+            if (totalTime >= 0) {
+                totalTime -= moveDelta; //if counting down
+            } else {
+                PatlatGitsin.gamePlaying = false;
+                timer.cancel();
+
+                for (int i = 0; i < balloonList.size(); i++) {
+                    if (balloonList.get(i) != null) {
+                        if (balloonList.get(i) instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                            ((com.mygdx.deneme.balloon.YellowBalloon) balloonList.get(i)).yellowTimer2.cancel();
+                            ((com.mygdx.deneme.balloon.YellowBalloon) balloonList.get(i)).yellowTimer.cancel();
+                        }
+                    }
+                }
+            }
+
+            moveBalloons(moveDelta);
+            kenaraDegdimi();
+            birbirineCarptimi();
+
+            if (balloonList.size() <= 0) {
+                PatlatGitsin.gamePlaying = false;
+                timer.cancel();
+            }
+
+        } else {
+            // yeterli sayıda balon patlatılmış ise
+            if (PatlatGitsin.poppedBalloons[0] >= 1 && PatlatGitsin.poppedBalloons[1] >= 1 &&
+                    PatlatGitsin.poppedBalloons[2] >= 1 && PatlatGitsin.poppedBalloons[3] >= 1) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "OYUN SONU : " + PatlatGitsin.level3Score, (Gdx.graphics.getWidth() / 2) - 200, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = true;
+            } else {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "Yeterli Sayida Balon Patlatilamadi!! " + PatlatGitsin.level3Score, 100, Gdx.graphics.getHeight() / 2);
+                batch.end();
+                savePoint = false;
+            }
+
+            if (PatlatGitsin.level3Score < 100) {
+                batch.begin();
+                PatlatGitsin.fontFinish.draw(batch, "100 Puan Toplanamadi!! Puan : " + PatlatGitsin.level3Score, 100, Gdx.graphics.getHeight() / 2 - 50);
+                batch.end();
+                savePoint = false;
+            }
+            batch.begin();
+            batch.draw(backTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight() - 100), 100, 100);
+            batch.draw(nextTexture, (Gdx.graphics.getWidth() - 100), (Gdx.graphics.getHeight() - 230), 100, 100);
+            batch.end();
+        }
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            if (PatlatGitsin.isPlaying)
+                PatlatGitsin.menuost.play();
+
+            PatlatGitsin.winterost.stop();
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (PatlatGitsin.gamePlaying) {
+            // Telefon y ile libgdx y si farklı
+            screenY = screenHeight - screenY;
+
+            boolean x1, x2, y1, y2;
+
+            for (int i = balloonList.size() - 1; i >= 0; i--) {
+
+                com.mygdx.deneme.balloon.Balloon tmpBalloon = balloonList.get(i);
+
+                if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                    if (!((com.mygdx.deneme.balloon.YellowBalloon) tmpBalloon).showYellow) {
+                        continue;
+                    }
+                }
+
+                if (tmpBalloon != null) {
+                    x1 = screenX > tmpBalloon.getX();
+                    x2 = screenX < (tmpBalloon.getX() + tmpBalloon.getWidth());
+
+                    y1 = screenY > tmpBalloon.getY();
+                    y2 = screenY < (tmpBalloon.getY() + tmpBalloon.getHeight());
+                } else {
+                    continue;
+                }
+
+                if (x1 && x2 && y1 && y2) {
+                    // y = y + 100;
+                    tmpBalloon.playSound();
+                    //balloonList.remove(i);
+
+                    PatlatGitsin.level3Score += tmpBalloon.getPoint();
+
+                    if (tmpBalloon instanceof com.mygdx.deneme.balloon.BlackBalloon) {
+                        PatlatGitsin.poppedBalloons[0] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.GreenBalloon) {
+                        PatlatGitsin.poppedBalloons[1] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.RedBalloon) {
+                        PatlatGitsin.poppedBalloons[2] += 1;
+                    } else if (tmpBalloon instanceof com.mygdx.deneme.balloon.YellowBalloon) {
+                        PatlatGitsin.poppedBalloons[3] += 1;
+                    }
+
+                    // balloonList.remove(balloonList.get(i));
+                    try {
+                        balloonList.set(i, null);
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.toString());
+                        continue;
+                    }
+
+                    System.out.println("Balon uzunluğu: " + balloonList.size());
+
+                    break;
+                }
+            }
+
+            balloonList.removeAll(Collections.singleton(null));
+
+        } else {
+
+            boolean x1 = screenX > (Gdx.graphics.getWidth() - 100);
+            boolean x2 = screenX < ((Gdx.graphics.getWidth() - 100) + 100);
+
+            boolean y1 = screenY > 0;
+            boolean y2 = screenY < 0 + 100;
+
+            if (x1 && x2 && y1 && y2) {
+
+
+                if (savePoint && PatlatGitsin.level3Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level3", PatlatGitsin.level3Score);
+                    prefs.flush();
+                }
+
+
+                if (PatlatGitsin.isPlaying == true)
+                    PatlatGitsin.menuost.play();
+
+                PatlatGitsin.winterost.stop();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.level.LevelScreen());
+            }
+
+            boolean x11 = screenX > (Gdx.graphics.getWidth() - 100);
+            boolean x22 = screenX < ((Gdx.graphics.getWidth() - 100) + 100);
+
+            boolean y11 = screenY > 130;
+            boolean y22 = screenY < 130 + 100;
+
+            if (x11 && x22 && y11 && y22) {
+
+                if (savePoint && PatlatGitsin.level3Score >= 100) {
+                    Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+                    prefs.putInteger("Level3", PatlatGitsin.level3Score);
+                    prefs.flush();
+
+
+                    if (PatlatGitsin.isPlaying)
+                        PatlatGitsin.menuost.play();
+
+                    PatlatGitsin.winterost.stop();
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new HighScoresScreen());
+
+                }
+
+
+            }
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+
+public class LevelScreenBase implements Screen, InputProcessor {
+
+    private com.mygdx.deneme.balloon.GreenBalloon greenBalloon;
+    private com.mygdx.deneme.balloon.RedBalloon redBalloon;
+    private com.mygdx.deneme.balloon.YellowBalloon yellowBalloon;
+    private com.mygdx.deneme.balloon.BlackBalloon blackBalloon;
+
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> balloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> yellowBalloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> blackBalloonList;
+
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allBlackBalloonList;
+    private ArrayList<com.mygdx.deneme.balloon.Balloon> allGreenBalloonList;
+
+    Texture backgroundTexture;
+    Timer timer;
+    int screenWidth, screenHeight;
+
+    int width = 128;
+    int height = 128;
+
+    float moveDelta = 0;
+
+    float totalTime = 30;
+    boolean sariGoster = true;
+
+    SpriteBatch batch;
+
+    Texture blackTexture;
+    Texture greenTexture;
+    Texture backTexture;
+
+
+    private void kenaraDegdimi() {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).kenaraDegdimi();
+        }
+
+    }
+
+    private void moveBalloons(float moveDelta) {
+        for (int i = 0; i < balloonList.size(); i++) {
+            balloonList.get(i).hareketEt(moveDelta);
+        }
+    }
+
+    private void birbirineCarptimi() {
+
+        ArrayList<com.mygdx.deneme.balloon.Balloon> tmpBalloonList = (ArrayList<com.mygdx.deneme.balloon.Balloon>) balloonList.clone();
+
+        for (int i = 0; i < balloonList.size(); i++) {
+            for (int j = 0; j < balloonList.size(); j++) {
+
+                if (i != j) {
+
+                    boolean contains = balloonList.get(i).getRectangle().overlaps(balloonList.get(j).getRectangle());
+
+                    if (contains) {
+                        balloonList.get(i).goBack();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+
+public class CreditsScreen implements Screen, InputProcessor {
+
+    private Stage stage;
+
+    private Image creditsScreen;
+    private Button backButton;
+
+    private MenuScreen menuScreen;
+
+    @Override
+    public void show() {
+
+        stage = new Stage();
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setCatchBackKey(true);
+
+        menuScreen = new MenuScreen();
+
+        creditsScreen = new Image(PatlatGitsin.skin, "creditsbg");
+        backButton = new Button(PatlatGitsin.skin, "backbutton");
+
+        creditsScreen.setPosition(0.0f, 0.0f);
+        creditsScreen.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        backButton.setPosition( (Gdx.graphics.getWidth() - 150 ) / 2 , 20);
+        backButton.setBounds(backButton.getX(), backButton.getY(), 150, 150);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(menuScreen);
+            }
+        });
+
+        stage.addActor(creditsScreen);
+        stage.addActor(backButton);
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+public class HighScoresScreen implements Screen, InputProcessor {
+
+    private Stage stage;
+    private Image highScoreScreen;
+    private Button backButton;
+
+    private SpriteBatch batch;
+
+    int level1Score;
+    int level2Score;
+    int level3Score;
+
+
+    @Override
+    public void show() {
+
+        Preferences prefs = Gdx.app.getPreferences("LevelPoints");
+
+        level1Score = prefs.getInteger("Level1", 0);
+        level2Score = prefs.getInteger("Level2", 0);
+        level3Score = prefs.getInteger("Level3", 0);
+
+        stage = new Stage();
+
+        batch = new SpriteBatch();
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setCatchBackKey(true);
+
+        final MenuScreen menuScreen = new MenuScreen();
+
+        highScoreScreen = new Image(PatlatGitsin.skin, "highscoresbg");
+        backButton = new Button(PatlatGitsin.skin, "backbutton");
+
+        highScoreScreen.setPosition(0.0f, 0.0f);
+        highScoreScreen.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        backButton.setPosition((Gdx.graphics.getWidth() - 150) / 2, 20);
+        backButton.setBounds(backButton.getX(), backButton.getY(), 150, 150);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(menuScreen);
+            }
+        });
+
+        stage.addActor(highScoreScreen);
+        stage.addActor(backButton);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+
+        batch.begin();
+        PatlatGitsin.fontFinish.draw(batch, "Level 1 Score: " + level1Score, 400, (Gdx.graphics.getHeight() / 2) + 100);
+        PatlatGitsin.fontFinish.draw(batch, "Level 2 Score: " + level2Score, 400, (Gdx.graphics.getHeight() / 2));
+        PatlatGitsin.fontFinish.draw(batch, "Level 3 Score: " + level3Score, 400, (Gdx.graphics.getHeight() / 2) - 100);
+        batch.end();
+
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+public class MenuScreen implements Screen, InputProcessor {
+    private Stage stage;
+
+    private com.mygdx.deneme.screen.CreditsScreen creditsScreen = new com.mygdx.deneme.screen.CreditsScreen();
+    private com.mygdx.deneme.screen.HighScoresScreen highScoresScreen = new com.mygdx.deneme.screen.HighScoresScreen();
+    private com.mygdx.deneme.screen.level.LevelScreen levelScreen = new com.mygdx.deneme.screen.level.LevelScreen();
+
+
+    private Image backgroundImage;
+    private Button startButton;
+    private Button creditsButton;
+    private Button highScoresButton;
+    private Button exitButton;
+    private Button muteButton;
+    private Button deMuteButton;
+
+    private int spaceX = 0;
+    private int spaceY = 0;
+    private int spaceWidth = 0;
+    private int spaceHeigth = 0;
+
+    public MenuScreen() {
+    }
+
+    @Override
+    public void show() {
+
+        stage = new Stage();
+
+        backgroundImage = new Image(PatlatGitsin.skin, "menubg");
+
+        startButton = new Button(PatlatGitsin.skin, "startbutton");
+        creditsButton = new Button(PatlatGitsin.skin, "creditsbutton");
+        highScoresButton = new Button(PatlatGitsin.skin, "highscores");
+        exitButton = new Button(PatlatGitsin.skin, "exit");
+
+        muteButton = new Button(PatlatGitsin.skin, "mute");
+        deMuteButton = new Button(PatlatGitsin.skin, "demute");
+
+        spaceWidth = (int) (startButton.getWidth() / 1.25f);
+        spaceHeigth = (int) (startButton.getHeight() / 1.25f);
+
+        spaceX = (Gdx.graphics.getWidth() - 2 * spaceWidth) / 3;
+        spaceY = (Gdx.graphics.getHeight() - 2 * spaceHeigth) / 3;
+
+        spaceY -= 40;
+
+        backgroundImage.setPosition(0f, 0f);
+        backgroundImage.setBounds(backgroundImage.getX(), backgroundImage.getY(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        startButton.setPosition(spaceX, 2 * spaceY + spaceHeigth);
+        startButton.setBounds(startButton.getX(), startButton.getY(), startButton.getWidth() / 1.25f, startButton.getHeight() / 1.25f);
+
+        highScoresButton.setPosition(2 * spaceX + spaceWidth, 2 * spaceY + spaceHeigth);
+        highScoresButton.setBounds(highScoresButton.getX(), highScoresButton.getY(), highScoresButton.getWidth() / 1.25f, highScoresButton.getHeight() / 1.25f);
+
+        creditsButton.setPosition(spaceX, spaceY);
+        creditsButton.setBounds(creditsButton.getX(), creditsButton.getY(), creditsButton.getWidth() / 1.25f, creditsButton.getHeight() / 1.25f);
+
+        exitButton.setPosition(2 * spaceX + spaceWidth, spaceY);
+        exitButton.setBounds(exitButton.getX(), exitButton.getY(), exitButton.getWidth() / 1.25f, exitButton.getHeight() / 1.25f);
+
+        muteButton.setPosition(Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 80);
+        muteButton.setBounds(muteButton.getX(), muteButton.getY(), 80, 80);
+
+        deMuteButton.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 80);
+        deMuteButton.setBounds(deMuteButton.getX(), deMuteButton.getY(), 80, 80);
+
+
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(levelScreen);
+            }
+        });
+
+        creditsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(creditsScreen);
+            }
+        });
+
+        highScoresButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(highScoresScreen);
+            }
+        });
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PatlatGitsin.menuost.stop();
+                PatlatGitsin.menuost.dispose();
+                PatlatGitsin.skin.dispose();
+                Gdx.app.exit();
+            }
+        });
+
+        muteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(PatlatGitsin.menuost.isPlaying()){
+                    PatlatGitsin.menuost.stop();
+                    PatlatGitsin.isPlaying = false;
+                }
+            }
+        });
+
+        deMuteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if( !PatlatGitsin.menuost.isPlaying()) {
+                    PatlatGitsin.menuost.stop();
+                    PatlatGitsin.menuost.play();
+                    PatlatGitsin.isPlaying = true;
+                }
+            }
+        });
+
+        stage.addActor(backgroundImage);
+        stage.addActor(startButton);
+        stage.addActor(creditsButton);
+        stage.addActor(highScoresButton);
+        stage.addActor(exitButton);
+        stage.addActor(muteButton);
+        stage.addActor(deMuteButton);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        Gdx.input.setCatchBackKey(true);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            Gdx.app.exit();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+}
+
+
+public class SplashScreen implements Screen {
+
+    private Texture texture;
+    private Image splashImage;
+    private Stage stage = new Stage();
+
+    @Override
+    public void show() {
+
+        texture = new Texture(Gdx.files.internal("splashscreen.png"));
+
+        splashImage = new Image(texture);
+
+        splashImage.setPosition(0,0);
+        splashImage.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        stage.addActor(splashImage);
+
+        splashImage.addAction(Actions.sequence(Actions.alpha(0)
+                , Actions.fadeIn(3.0f), Actions.delay(1), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new com.mygdx.deneme.screen.MenuScreen());
+                    }
+                })));
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        texture.dispose();
+        stage.dispose();
+    }
+}
+
+public class PatlatGitsin extends Game {
+
+    public static Music menuost;
+    public static Music desertost;
+    public static Music forestost;
+    public static Music winterost;
+
+    public static Sound blasteffect;
+    public static Sound blackblasteffect;
+    public static Sound iceeffect;
+
+    public static boolean isPlaying = true;
+
+    public static boolean gamePlaying = false; //Level ekranında çalışacak
+
+    public static boolean iceShowing = false;
+
+    public static BitmapFont font;
+    public static BitmapFont fontFinish;
+
+    public static int totalScore;
+    public static int level1Score;
+    public static int level2Score;
+    public static int level3Score;
+
+
+    public static int[] poppedBalloons = new int[]{0, 0, 0, 0};
+
+    com.mygdx.deneme.screen.SplashScreen splashScreen;
+
+    public static Skin skin;
+
+    @Override
+    public void create() {
+
+        skin = new Skin(Gdx.files.internal("mainmenu.json"), new TextureAtlas("mainmenu.pack"));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carterone.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        font = generator.generateFont(parameter);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parameterFinish = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameterFinish.size = 60;
+        fontFinish = generator.generateFont(parameterFinish);
+        generator.dispose();
+
+        font.setColor(Color.RED);
+        font.getData().setScale(2.0f);
+
+        menuost = Gdx.audio.newMusic(Gdx.files.internal("musics/menuost.ogg"));
+
+        desertost = Gdx.audio.newMusic(Gdx.files.internal("musics/desertost.ogg"));
+        desertost.setVolume(0.7f);
+
+        forestost = Gdx.audio.newMusic(Gdx.files.internal("musics/forestost.ogg"));
+        forestost.setVolume(0.7f);
+
+        winterost = Gdx.audio.newMusic(Gdx.files.internal("musics/winterost.ogg"));
+        winterost.setVolume(0.7f);
+
+        blasteffect = Gdx.audio.newSound(Gdx.files.internal("musics/blasteffect.ogg"));
+
+        blackblasteffect = Gdx.audio.newSound(Gdx.files.internal("musics/blackblasteffect.ogg"));
+
+        iceeffect = Gdx.audio.newSound(Gdx.files.internal("musics/iceeffect.ogg"));
+
+        menuost.play();
+        menuost.setLooping(true);
+
+        splashScreen = new com.mygdx.deneme.screen.SplashScreen();
+        setScreen(splashScreen);
+
+    }
+}
